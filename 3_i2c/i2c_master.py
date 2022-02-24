@@ -13,7 +13,20 @@ AARDVARK_SERIAL_ID=2237170206
 
 # -----------------
 
+bitrate_khz = 100
 
+# -----------------
+
+slave_addr = 10
+
+# -----------------
+
+flags = AA_I2C_NO_FLAGS
+# AA_I2C_10_BIT_ADDR | AA_I2C_COMBINED_FMT | AA_I2C_NO_STOP | AA_I2C_SIZED_READ | AA_I2C_SIZED_READ_EXTRA1
+
+# -----------------
+
+data_out = array('B', [1, 2, 3, 4])
 
 # -----------------------------------------------------------------------------
 
@@ -52,40 +65,19 @@ if aardvark_handle < 0:
 ###############################################################################
 # I2C MASTER
 
-# print(f"configure SPI")
-# print(f"- bitrate {bitrate_khz}khz")
-# if polarity == AA_SPI_POL_RISING_FALLING:
-#     print(f"- polarity falling")
-# else:
-#     print(f"- polarity rising")
+print(f"configure I2C")
+print(f"- bitrate {bitrate_khz}khz")
 
-# if phase == AA_SPI_PHASE_SAMPLE_SETUP:
-#     print(f"- phase SAMPLE_SETUP")
-# else:
-#     print(f"- phase SETUP_SAMPLE")
+#
+aa_i2c_bitrate(aardvark_handle, bitrate_khz)
 
-# if bitorder == AA_SPI_BITORDER_MSB:
-#     print(f"- phase MSB")
-# else:
-#     print(f"- phase LSB")
+#
+status = aa_i2c_write(aardvark_handle, slave_addr, flags, data_out)
+if status < 0:
+    print(f"fail sending data ({aa_status_string(status)})")
+else:
+    print("data [1, 2, 3, 4] sent on i2c")
 
-
-# #
-# aa_spi_bitrate(aardvark_handle, bitrate_khz)
-# aa_spi_configure(aardvark_handle, polarity, phase, bitorder)
-
-# # Enable as slave
-# aa_spi_slave_disable(aardvark_handle)
-
-# #
-# aa_spi_master_ss_polarity(aardvark_handle, ss_polarity)
-
-# #
-# status, data_in = aa_spi_write (aardvark_handle, array('B', [1, 2, 3, 4]), array('B'))
-# if status < 0:
-#     print(f"fail sending data ({aa_status_string(status)})")
-# else:
-#     print("data [1, 2, 3, 4] sent on spi")
 
 ###############################################################################
 # CLEANUP

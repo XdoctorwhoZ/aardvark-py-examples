@@ -26,8 +26,46 @@ sudo chmod 644 /etc/udev/rules.d/99-totalphase.rules
 
 This example provides an example to list connected devices, print their serial numbers and features.
 
+```bash
+python3 1_discovery/device_simple_discovery.py
+# Example output
+#
+# 2 aardvark found
+# +++++++++++++++++++++++++
+# ++ device on port 0
+#     - serial id 2237170206
+#     - open connection aardvark
+#     - versions
+#             * software     : 1320
+#             * firmware     : 819
+#             * hardware     : 768
+#             * sw_req_by_fw : 768
+#             * fw_req_by_sw : 818
+#             * api_req_by_sw: 1280
+#     - features 27
+#             * SPI ok
+#             * I2C ok
+#             * GPIO ok
+#             * I2C MONITOR ok
+#     - close connection
+# +++++++++++++++++++++++++
+# ++ device on port 1
+#     ...
+```
+
 ## 2) SPI Master/Slave
 
+In this example, you can connect 2 aardvark together and perform a spi communication.
+
+```bash
+# First run the spi slave
+python3 2_spi/spi_slave.py
+```
+
+```bash
+# Then trigger an spi write
+python3 2_spi/spi_master.py
+```
 
 ## 3) I2C Master/Slave
 

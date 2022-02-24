@@ -4,6 +4,7 @@ This script provides an example of how to use aardvark-py to run an aardvark as 
 __author__ = "XdoctorwhoZ (Xavier Rodriguez)"
 
 # Imports
+from audioop import add
 from os import stat
 from aardvark_py import *
 
@@ -14,6 +15,16 @@ AARDVARK_SERIAL_ID=2238487174
 
 # -----------------
 
+bitrate_khz = 100
+
+# -----------------
+
+slave_addr = 10
+
+# -----------------
+
+flags = AA_I2C_NO_FLAGS
+# AA_I2C_10_BIT_ADDR | AA_I2C_COMBINED_FMT | AA_I2C_NO_STOP | AA_I2C_SIZED_READ | AA_I2C_SIZED_READ_EXTRA1
 
 # -----------------------------------------------------------------------------
 
@@ -51,51 +62,36 @@ if aardvark_handle < 0:
 ###############################################################################
 # I2C SLAVE
 
-
-# print(f"configure SPI")
-# print(f"- bitrate {bitrate_khz}khz")
-# if polarity == AA_SPI_POL_RISING_FALLING:
-#     print(f"- polarity falling")
-# else:
-#     print(f"- polarity rising")
-
-# if phase == AA_SPI_PHASE_SAMPLE_SETUP:
-#     print(f"- phase SAMPLE_SETUP")
-# else:
-#     print(f"- phase SETUP_SAMPLE")
-
-# if bitorder == AA_SPI_BITORDER_MSB:
-#     print(f"- phase MSB")
-# else:
-#     print(f"- phase LSB")
+print(f"configure I2C")
+print(f"- bitrate {bitrate_khz}khz")
 
 
-# aa_spi_bitrate(aardvark_handle, bitrate_khz)
-# aa_spi_configure(aardvark_handle, polarity, phase, bitorder)
+#
+aa_i2c_bitrate(aardvark_handle, bitrate_khz)
 
-# # Enable as slave
-# aa_spi_slave_enable(aardvark_handle)
+#
+aa_i2c_slave_enable(aardvark_handle, slave_addr, 8, 8)
+
+try:
+    while True:
+        print(f"wait for max 8 bytes of spi data...")
+        event = aa_async_poll(aardvark_handle, -1)
+
+        if event & AA_ASYNC_I2C_READ:
+            print("- event I2C read")
+
+            data_in=array('B', [0,0,0,0,0,0,0,0])
+            status, addr, data_in = aa_i2c_slave_read(aardvark_handle, data_in)
+            if status < 0:
+                print(aa_status_string(status))
+            print(f"from addr {addr} data recieved {data_in}")
+
+        if event & AA_ASYNC_I2C_WRITE:
+            print("- event I2C write")
 
 
-# try:
-#     while True:
-#         print(f"wait for max 8 bytes of spi data...")
-#         event = aa_async_poll(aardvark_handle, -1)
 
-#         if event & AA_ASYNC_SPI:
-#             print("- event spi ok")
-
-#             data_in=array('B', [0,0,0,0,0,0,0,0])
-#             status, data_in = aa_spi_slave_read(aardvark_handle, data_in)
-#             if status < 0:
-#                 print(aa_status_string(status))
-#                 # ''spi slave dropped excess bytes'' => this means that ''data_in'' is not big enough to contains the all incomming data
-#             print(data_in)
-
-#         else:
-#             print("- event not an spi event ??!!")
-
-# except KeyboardInterrupt:
-#     ###############################################################################
-#     # CLEANUP
-#     aa_close(aardvark_handle)
+except KeyboardInterrupt:
+    ###############################################################################
+    # CLEANUP
+    aa_close(aardvark_handle)
