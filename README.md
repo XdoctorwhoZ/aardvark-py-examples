@@ -2,7 +2,7 @@
 
 Examples to understand how to use the python module **aardvark-py** to drive aardvark adapters
 
-## 0) Setup Files and Pinout
+## Setup Files and Pinout
 
 ```bash
 pip install aardvark-py
@@ -22,7 +22,7 @@ sudo cp  0_files/99-totalphase.rules  /etc/udev/rules.d/99-totalphase.rules
 sudo chmod 644 /etc/udev/rules.d/99-totalphase.rules
 ```
 
-## 1) Devices Discovery
+## Devices Discovery
 
 This example provides an example to list connected devices, print their serial numbers and features.
 
@@ -53,7 +53,9 @@ python3 1_discovery/device_simple_discovery.py
 #     ...
 ```
 
-## 2) SPI Master/Slave
+## SPI Master/Slave
+
+### SPI Master send and slave receive
 
 In this example, you can connect 2 aardvark together and perform a spi communication.
 
@@ -67,5 +69,9 @@ python3 2_spi/spi_slave.py
 python3 2_spi/spi_master.py
 ```
 
-## 3) I2C Master/Slave
+### SPI Master read a response setup by the slave 
+
+
+
+## I2C Master/Slave
 

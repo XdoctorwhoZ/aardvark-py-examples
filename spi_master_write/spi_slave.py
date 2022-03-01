@@ -107,8 +107,8 @@ try:
         if event & AA_ASYNC_SPI:
             print("- event spi ok")
 
-            data_in=array('B', [0,0,0,0,0,0,0,0])
-            status, data_in = aa_spi_slave_read(aardvark_handle, data_in)
+            # Set the max size of the input buffer (set a big value and the python function will adjust the buffer for you)
+            status, data_in = aa_spi_slave_read(aardvark_handle, 9999)
             if status < 0:
                 print(aa_status_string(status))
                 # ''spi slave dropped excess bytes'' => this means that ''data_in'' is not big enough to contains the all incomming data
