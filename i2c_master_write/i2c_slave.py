@@ -74,7 +74,7 @@ aa_i2c_slave_enable(aardvark_handle, slave_addr, 8, 8)
 
 try:
     while True:
-        print(f"wait for max 8 bytes of spi data...")
+        print(f"wait for max 8 bytes of i2c data...")
         event = aa_async_poll(aardvark_handle, -1)
 
         if event & AA_ASYNC_I2C_READ:
