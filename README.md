@@ -14,11 +14,11 @@ Most informations for installation and pinout are in the online manual here : [A
 
 On Linux be careful you need to configure udev rules: chapter *3.3.1 UDEV*
 
-In this repository, you can find the file [99-totalphase.rules](0_files/99-totalphase.rules).
+In this repository, you can find the file [99-totalphase.rules](files/99-totalphase.rules).
 
 ```bash
 # cd path/to/aardvark-py-examples
-sudo cp  0_files/99-totalphase.rules  /etc/udev/rules.d/99-totalphase.rules
+sudo cp  files/99-totalphase.rules  /etc/udev/rules.d/99-totalphase.rules
 sudo chmod 644 /etc/udev/rules.d/99-totalphase.rules
 ```
 
@@ -61,17 +61,10 @@ In this example, you can connect 2 aardvark together and perform a spi communica
 
 ```bash
 # First run the spi slave
-python3 2_spi/spi_slave.py
+python3 spi_master_write/spi_slave.py
 ```
 
 ```bash
 # Then trigger an spi write
-python3 2_spi/spi_master.py
+python3 spi_master_write/spi_master.py
 ```
-
-### SPI Master read a response setup by the slave 
-
-
-
-## I2C Master/Slave
-
