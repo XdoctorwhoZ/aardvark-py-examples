@@ -13,7 +13,6 @@ aa_devices = aa_find_devices(MAX_NUMBER_OF_DEVICE_TO_DETECT)
 # Run an extended discovery
 aa_devices_extended = aa_find_devices_ext(MAX_NUMBER_OF_DEVICE_TO_DETECT, MAX_NUMBER_OF_DEVICE_TO_DETECT)
 
-
 # First parameter is the number of connected devices
 number_of_connected_aardvark = aa_devices[0]
 print(f"{number_of_connected_aardvark} aardvark found")
@@ -36,12 +35,12 @@ for port_aardvark in aa_devices[1]:
     # Get versions
     status, version = aa_version(aardvark_handle)
     print(f"    - versions")
-    print(f"            * software     : {version.software     }")
-    print(f"            * firmware     : {version.firmware     }")
-    print(f"            * hardware     : {version.hardware     }")
-    print(f"            * sw_req_by_fw : {version.sw_req_by_fw }")
-    print(f"            * fw_req_by_sw : {version.fw_req_by_sw }")
-    print(f"            * api_req_by_sw: {version.api_req_by_sw}")
+    print(f"            * software     : {hex(version.software     )}")
+    print(f"            * firmware     : {hex(version.firmware     )}")
+    print(f"            * hardware     : {hex(version.hardware     )}")
+    print(f"            * sw_req_by_fw : {hex(version.sw_req_by_fw )}")
+    print(f"            * fw_req_by_sw : {hex(version.fw_req_by_sw )}")
+    print(f"            * api_req_by_sw: {hex(version.api_req_by_sw)}")
 
     # Get features
     features = aa_features(aardvark_handle)
@@ -70,7 +69,5 @@ for port_aardvark in aa_devices[1]:
     # Close 
     print(f"    - close connection")
     aa_close(aardvark_handle)
-
-
 
 

@@ -26,45 +26,50 @@ sudo chmod 644 /etc/udev/rules.d/99-totalphase.rules
 
 This example provides an example to list connected devices, print their serial numbers and features.
 
+To find connected devices use those functions:
+
+- aa_find_devices
+- aa_find_devices_ext
+
+Before using the aardvark you need to open it and get an *handle*:
+
+- aa_open
+- aa_close
+
+To get version and features of the probe:
+
+- aa_version
+- aa_features
+
+Versions are hex numbers for example 0x0300. You need to understand them as 2 digits version 0x0300 => 03.00
+
 ```bash
-python3 1_discovery/device_simple_discovery.py
-# Example output
-#
-# 2 aardvark found
-# +++++++++++++++++++++++++
-# ++ device on port 0
-#     - serial id 2237170206
-#     - open connection aardvark
-#     - versions
-#             * software     : 1320
-#             * firmware     : 819
-#             * hardware     : 768
-#             * sw_req_by_fw : 768
-#             * fw_req_by_sw : 818
-#             * api_req_by_sw: 1280
-#     - features 27
-#             * SPI ok
-#             * I2C ok
-#             * GPIO ok
-#             * I2C MONITOR ok
-#     - close connection
-# +++++++++++++++++++++++++
-# ++ device on port 1
-#     ...
+python3 discovery/device_simple_discovery.py
 ```
 
-## SPI Master/Slave
+## Master/Slave SPI/I2C examples
 
-### SPI Master send and slave receive
+In this example, you can connect 2 aardvark together pin to pin and perform the following communications.
 
-In this example, you can connect 2 aardvark together and perform a spi communication.
+- i2c_master_read:
+- i2c_master_write
+- spi_master_write
+- spi_slave_response
+
+Those examples provides a slave and a master application. Start the slave first.
 
 ```bash
 # First run the spi slave
-python3 spi_master_write/spi_slave.py
+python3 XXXX/slave.py
 ```
 
 ```bash
 # Then trigger an spi write
-python3 spi_master_write/spi_master.py
+python3 XXXX/master.py
 ```
+
+## Power pin
+
+5V pins on aardvark are not connected by default.
+
+- aa_target_power
